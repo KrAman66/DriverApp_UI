@@ -1,0 +1,60 @@
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import HomeScreen from './src/screens/HomeScreen';
+import Register from './src/screens/Register';
+import EmailVerify from './src/screens/EmailVerify';
+import ContactVerify from './src/screens/ContactVerify';
+import EmailVerifyConfirmation from './src/screens/EmailVerifyConfirmation';
+import OTPSuccess from './src/screens/OTPSuccess';
+import SignIn from './src/screens/SignIn';
+import DriverDetails from './src/screens/DriverDetails';
+import RiderAddress from './src/screens/RiderAddress';
+import AddressProof from './src/screens/AddressProof';
+import BankingDetails from './src/screens/BankingDetails';
+import CriminalRecordProof from './src/screens/CriminalRecordProof';
+import DrivingLicenceProof from './src/screens/DrivingLicenceProof';
+import RiderAgreement from './src/screens/RiderAgreement';
+import RightToWork from './src/screens/RightToWork';
+import YourVehicleInfo from './src/screens/YourVehicleInfo'
+
+const Stack = createStackNavigator();
+
+export default function App() {
+  return (
+      <NavigationContainer>
+        <SafeAreaProvider>
+          <Stack.Navigator>
+            <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+            <Stack.Screen name="Email" component={EmailVerify} options={{ headerShown: false }} />
+            <Stack.Screen name="EmailSuccess" component={EmailVerifyConfirmation} options={{ headerShown: false }} />
+            <Stack.Screen name="Contact" component={ContactVerify} options={{ headerShown: false }} />
+            <Stack.Screen name="ContactSuccess" component={OTPSuccess} options={{ headerShown: false }} />
+            <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
+            <Stack.Screen name="DriverDetails" component={DriverDetails} options={{ headerShown: false }} />
+            <Stack.Screen name='RiderAddress' component={RiderAddress} options={{ headerShown: false }} />
+            <Stack.Screen name="AddressProof" component={AddressProof} options={{ headerShown: false }} />
+            <Stack.Screen name="BankingDetails" component={BankingDetails} options={{ headerShown: false }} />
+            <Stack.Screen name="CriminalRecordProof" component={CriminalRecordProof} options={{ headerShown: false }} />
+            <Stack.Screen name="DrivingLicenceProof" component={DrivingLicenceProof} options={{ headerShown: false }} />
+            <Stack.Screen name="RiderAgreement" component={RiderAgreement} options={{ headerShown: false }} />
+            <Stack.Screen name= "RightToWork" component={RightToWork} options={{ headerShown: false }} />
+            <Stack.Screen name="YourVehicleInfo" component={YourVehicleInfo} options={{ headerShown: false }} />
+          </Stack.Navigator>
+        </SafeAreaProvider>
+      </NavigationContainer>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
