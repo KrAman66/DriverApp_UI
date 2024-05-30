@@ -20,6 +20,7 @@ import DrivingLicenceProof from './src/screens/DrivingLicenceProof';
 import RiderAgreement from './src/screens/RiderAgreement';
 import RightToWork from './src/screens/RightToWork';
 import YourVehicleInfo from './src/screens/YourVehicleInfo'
+import Home from './src/screens/home';
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,7 @@ export default function App() {
             <Stack.Screen name="RiderAgreement" component={RiderAgreement} options={{ headerShown: false }} />
             <Stack.Screen name= "RightToWork" component={RightToWork} options={{ headerShown: false }} />
             <Stack.Screen name="YourVehicleInfo" component={YourVehicleInfo} options={{ headerShown: false }} />
+            <Stack.Screen name="HomeView" component={Home} options={{ headerShown: false }} />
           </Stack.Navigator>
         </SafeAreaProvider>
       </NavigationContainer>

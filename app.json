@@ -12,16 +12,32 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mayankk234.DriverApp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.mayankk234.DriverApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsVersion": "11.3.0",
+          "RNMapboxMapsDownloadToken": "sk.ey...qg"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "75c1423e-67df-4354-95ba-045bca8392bb"
+      }
     }
   }
 }

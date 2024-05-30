@@ -85,6 +85,12 @@ const DriverDetails: React.FC = () => {
                             <Image source={require("../../assets/down-arrow.png")} style={styles.arrowIcon} />
                         </View>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate("HomeView" as never)}>
+                        <View style={[tw`flex-row items-center justify-between p-4`, styles.action]}>
+                            <Text style={[{ fontSize: width * 0.05 }]}>Go to home</Text>
+                            <Image source={require("../../assets/down-arrow.png")} style={styles.arrowIcon} />
+                        </View>
+                    </TouchableOpacity>
                 </Card>
             </View>
         </SafeAreaView>
