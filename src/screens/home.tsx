@@ -1,76 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import MapView, {Marker} from 'react-native-maps';
-import * as Location from "expo-location";
 
-
-const token =
-  "sk.eyJ1IjoiZ3JhdW5vbm1hcGJveCIsImEiOiJjbHV5MjIxY3gwcnZ1MmlyenQzcTF5OXk3In0.pevQyWChIlrnswEtSUiHyw";
+import HomeScreen from "./driverHomeScreen";
 
 const { width, height } = Dimensions.get("window");
-
-function HomeScreen() {
-  type Region = {
-    latitude: number;
-    longitude: number;
-    latitudeDelta: number;
-    longitudeDelta: number;
-  };
-  const [currentLocation, setCurrentLocation] = useState<Location.LocationObjectCoords | null>(null);
-  const [initialRegion, setInitialRegion] = useState<Region | null>(null);
-
-  useEffect(() => {
-    const getLocation = async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        console.log("Permission to access location was denied");
-        return;
-      }
-
-      try {
-        let location = await Location.getCurrentPositionAsync({});
-        setCurrentLocation(location.coords);
-
-        setInitialRegion({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.005,
-          longitudeDelta: 0.005,
-        });
-      } catch (error) {
-        console.error("Error getting current location:", error);
-      }
-    };
-
-    getLocation();
-  }, []);
-
-  return (
-    <View style={{ flex: 1 }}>
-      {initialRegion && (
-        <MapView
-          style={styles.map}
-          initialRegion={initialRegion}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-        >
-          {/* You can add additional map elements like markers here */}
-          {/* <Marker
-            coordinate={{
-              latitude: initialRegion.latitude,
-              longitude: initialRegion.longitude,
-            }}
-            title="Your Location"
-          /> */}
-        </MapView>
-      )}
-    </View>
-  );
-}
-
 
 function WalletScreen() {
   return (
@@ -113,6 +48,8 @@ const Home: React.FC = () => {
             {route.name}
           </Text>
         ),
+        tabBarActiveTintColor: "black", // Color de los íconos activos
+        tabBarInactiveTintColor: "grey", // Color de los íconos inactivos
         headerShown: false,
       })}
     >
@@ -165,11 +102,6 @@ const styles = StyleSheet.create({
     fontSize: width * 0.03,
     textAlign: "center",
     marginBottom: 5,
-  },
-  map: {
-    flex: 1,
-    width: width,
-    height: height,
   },
 });
 
