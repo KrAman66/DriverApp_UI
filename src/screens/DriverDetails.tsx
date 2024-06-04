@@ -1,9 +1,9 @@
-import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, Dimensions } from 'react-native';
-import tw from 'twrnc';
-import { Card } from 'react-native-paper';
-import ProgressBar from '../components/ProgressBar';
 import { useNavigation } from "@react-navigation/native";
+import React from 'react';
+import { Dimensions, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Card } from 'react-native-paper';
+import tw from 'twrnc';
+import ProgressBar from '../components/ProgressBar';
 
 const { width, height } = Dimensions.get('window');
 
@@ -12,7 +12,7 @@ const DriverDetails: React.FC = () => {
     const navigation = useNavigation();
 
     const currentStep = 3;
-    const totalSteps = 4; 
+    const totalSteps = 4;
 
     return (
         <SafeAreaView style={[tw`h-full`, { backgroundColor: "#F5F5F5" }]}>

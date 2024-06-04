@@ -1,19 +1,28 @@
-import React from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-
-import HomeScreen from "./driverHomeScreen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React from "react";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
+import Wallet from "../components/WalletScreen";
+// import MapboxGL from '@react-native-mapbox-gl/maps';
 
 const { width, height } = Dimensions.get("window");
+// MapboxGL.setAccessToken('');
 
-function WalletScreen() {
+function HomeScreen() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Wallet!</Text>
+      <Text>Home!</Text>
     </View>
   );
 }
+
+// function WalletScreen() {
+//   return (
+//     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+//       <Text>Wallet!</Text>
+//     </View>
+//   );
+// }
 
 function SupportScreen() {
   return (
@@ -65,7 +74,7 @@ const Home: React.FC = () => {
       />
       <Tab.Screen
         name="Wallet"
-        component={WalletScreen}
+        component={Wallet}
         options={{
           tabBarIcon(props) {
             const { color, size } = props;
