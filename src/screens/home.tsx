@@ -4,17 +4,18 @@ import React from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import Wallet from "../components/WalletScreen";
 // import MapboxGL from '@react-native-mapbox-gl/maps';
+import HomeScreen from "./driverHomeScreen";
 
 const { width, height } = Dimensions.get("window");
 // MapboxGL.setAccessToken('');
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
+// function HomeScreen() {
+//   return (
+//     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+//       <Text>Home!</Text>
+//     </View>
+//   );
+// }
 
 // function WalletScreen() {
 //   return (
