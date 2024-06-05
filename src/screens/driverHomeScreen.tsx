@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Dimensions, Button, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Button,
+  Pressable,
+} from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import SwipeButton from "rn-swipe-button";
@@ -57,9 +64,9 @@ function HomeScreen() {
       setOrder(msg);
     });
 
-    //  socket.on("connect_error", (error) => {
-    //    console.log("Error connecting to server: ", error);
-    //  });
+    // socket.on("connect_error", (error) => {
+    //   console.log("Error connecting to server: ", error);
+    // });
   }, []);
 
   const unclockGestureHandler = useAnimatedGestureHandler({
@@ -126,7 +133,7 @@ function HomeScreen() {
     } catch {
       console.log("Error sending to server");
     }
-  }
+  };
 
   const [isSwiped, setIsSwiped] = useState(false);
 
@@ -183,24 +190,31 @@ function HomeScreen() {
       {!isSwiped && (
         <>
           <View style={styles.noti}>
-            <Text style={styles.rating}>
-              4.49
+            <Text style={styles.rating}>4.49</Text>
+            <Text style={styles.delCount}>
+              <Ionicons name="bag" style={{ marginRight: 10 }}></Ionicons>{" "}
+              Delivery (3)
             </Text>
-            <Text style={styles.delCount}><Ionicons name="bag" style={{marginRight: 10}}></Ionicons> Delivery (3)</Text>
             <Text style={styles.price}>£5.02</Text>
             <View style={styles.line}></View>
             <Ionicons name="stopwatch" style={styles.clock}></Ionicons>
             <Text style={styles.time}>30 min (3.2 mi) total</Text>
             <View style={styles.line2}></View>
             <View style={styles.direction}>
-                <Text style={styles.directions}>KFC Watford - High Street</Text>
-                <Text style={styles.directions}>109 The Parde, High St, Watford WD17 1LU</Text>
+              <Text style={styles.directions}>KFC Watford - High Street</Text>
+              <Text style={styles.directions}>
+                109 The Parde, High St, Watford WD17 1LU
+              </Text>
             </View>
             <Pressable style={styles.acceptBtn}>
-                <Text style={styles.accept} onPress={AcceptOrder}>Accept</Text>
+              <Text style={styles.accept} onPress={AcceptOrder}>
+                Accept
+              </Text>
             </Pressable>
             <Pressable style={styles.rejectBtn}>
-                <Text style={styles.reject} onPress={RejectOrder}>Reject</Text>
+              <Text style={styles.reject} onPress={RejectOrder}>
+                Reject
+              </Text>
             </Pressable>
           </View>
           <View style={styles.swipe}>
@@ -372,7 +386,7 @@ const styles = StyleSheet.create({
     left: "80%",
   },
   delCount: {
-    color:"white",
+    color: "white",
     backgroundColor: "black",
     width: 120,
     height: 30,
@@ -406,7 +420,6 @@ const styles = StyleSheet.create({
     top: 120,
     marginLeft: 35,
     fontWeight: "bold",
-
   },
   line2: {
     borderBottomColor: "#F5F5F5",
@@ -425,17 +438,14 @@ const styles = StyleSheet.create({
     left: width * 0.55,
     justifyContent: "center",
     alignItems: "center",
-
   },
   accept: {
     color: "white",
-
   },
   reject: {
     color: "black",
     fontSize: 17,
     fontWeight: "500",
-
   },
   rejectBtn: {
     width: 120,
@@ -446,7 +456,6 @@ const styles = StyleSheet.create({
     left: width * 0.27,
     justifyContent: "center",
     alignItems: "center",
-
   },
   direction: {
     position: "absolute",
@@ -465,5 +474,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 15,
     color: "grey",
-  }
+  },
 });
