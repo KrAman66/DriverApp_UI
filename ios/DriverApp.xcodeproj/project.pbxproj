@@ -14,7 +14,7 @@
 		96905EF65AED1B983A6B3ABC /* libPods-DriverApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-DriverApp.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		C11D8EAB24E9495B94A2D2A9 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9885D0297043CF9AE37420 /* noop-file.swift */; };
+		E45B70E89B074FCAA49D855E /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3AE40AD9D341EFA8F37F76 /* noop-file.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,8 +31,7 @@
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-DriverApp/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		4D9885D0297043CF9AE37420 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "DriverApp/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
-		FEBDFC8F57AD43848D98A2B7 /* DriverApp-Bridging-Header.h */ = {isa = PBXFileReference; name = "DriverApp-Bridging-Header.h"; path = "DriverApp/DriverApp-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		BB3AE40AD9D341EFA8F37F76 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "DriverApp/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,8 +56,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				4D9885D0297043CF9AE37420 /* noop-file.swift */,
-				FEBDFC8F57AD43848D98A2B7 /* DriverApp-Bridging-Header.h */,
+				BB3AE40AD9D341EFA8F37F76 /* noop-file.swift */,
 			);
 			name = DriverApp;
 			sourceTree = "<group>";
@@ -198,7 +196,6 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				6C3D1773FF9A4686878874FB /* DriverApp-Bridging-Header.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,7 +271,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
-				C11D8EAB24E9495B94A2D2A9 /* noop-file.swift in Sources */,
+				E45B70E89B074FCAA49D855E /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,7 +305,6 @@
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				SWIFT_OBJC_BRIDGING_HEADER = DriverApp/DriverApp-Bridging-Header.h;
 				CODE_SIGN_ENTITLEMENTS = DriverApp/DriverApp.entitlements;
 			};
 			name = Debug;
@@ -334,7 +330,6 @@
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				SWIFT_OBJC_BRIDGING_HEADER = DriverApp/DriverApp-Bridging-Header.h;
 				CODE_SIGN_ENTITLEMENTS = DriverApp/DriverApp.entitlements;
 			};
 			name = Release;

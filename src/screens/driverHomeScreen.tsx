@@ -21,7 +21,6 @@ import Animated, {
 } from "react-native-reanimated";
 
 import io from "socket.io-client";
-import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 const socket = io("http://localhost:3000", {
   transports: ["websocket"],
@@ -243,21 +242,21 @@ function HomeScreen() {
         </>
       )}
       {initialRegion && (
-        <MapView
-          style={styles.map}
-          initialRegion={initialRegion}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          mapType="terrain"
-        >
-          {/* You can add additional map elements like markers here */}
-          {/* <Marker
-              coordinate={{
-                latitude: initialRegion.latitude,
-                longitude: initialRegion.longitude,
-              }}
-              title="Your Location"
-            /> */}
+         <MapView
+           style={styles.map}
+           initialRegion={initialRegion}
+           showsUserLocation={true}
+           showsMyLocationButton={true}
+           mapType="terrain"
+         >
+           {/* You can add additional map elements like markers here */}
+           {/* <Marker
+        //       coordinate={{
+        //         latitude: initialRegion.latitude,
+        //         longitude: initialRegion.longitude,
+        //       }}
+        //       title="Your Location"
+        //     /> */}
         </MapView>
       )}
     </View>
