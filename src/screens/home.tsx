@@ -1,19 +1,32 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-import { Dimensions, Platform, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import Wallet from "../components/WalletScreen";
 import HomeScreen from "./driverHomeScreen";
-import HomeSvg from "../../assets/SVGs/home";
-import WalletSvg from "../../assets/SVGs/wallet";
-import SettingsSvg from "../../assets/SVGs/settings";
 
 const { width, height } = Dimensions.get("window");
+// function HomeScreen() {
+//   return (
+//     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+//       <Text>Home!</Text>
+//     </View>
+//   );
+// }
+
+// function WalletScreen() {
+//   return (
+//     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+//       <Text>Wallet!</Text>
+//     </View>
+//   );
+// }
 
 function SupportScreen() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Support!</Text>
+    
     </View>
   );
 }
@@ -38,13 +51,13 @@ const Home: React.FC = () => {
           height: height * 0.1,
           backgroundColor: "white",
         },
-        tabBarLabel: ({ focused, color }) => (
-          <Text style={[styles.label, { color }]}>
+        tabBarLabel: ({ focused }) => (
+          <Text style={[styles.label, { color: focused ? "black" : "grey" }]}>
             {route.name}
           </Text>
         ),
-        tabBarActiveTintColor: "black",
-        tabBarInactiveTintColor: "grey",
+        tabBarActiveTintColor: "black", // Color de los íconos activos
+        tabBarInactiveTintColor: "grey", // Color de los íconos inactivos
         headerShown: false,
       })}
     >
@@ -54,7 +67,7 @@ const Home: React.FC = () => {
         options={{
           tabBarIcon(props) {
             const { color, size } = props;
-            return <HomeSvg color={color} size={size} />;
+            return <Ionicons name="home-sharp" color={color} size={size} />;
           },
         }}
       />
@@ -64,7 +77,7 @@ const Home: React.FC = () => {
         options={{
           tabBarIcon(props) {
             const { color, size } = props;
-            return <WalletSvg color={color} size={size} />;
+            return <Ionicons name="wallet-sharp" color={color} size={size} />;
           },
         }}
       />
@@ -84,7 +97,7 @@ const Home: React.FC = () => {
         options={{
           tabBarIcon(props) {
             const { color, size } = props;
-            return <SettingsSvg color={color} size={size} />;
+            return <Ionicons name="settings-sharp" color={color} size={size} />;
           },
         }}
       />

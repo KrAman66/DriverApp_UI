@@ -7,7 +7,7 @@ import {
   Button,
   Pressable,
 } from "react-native";
-import  { Marker } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import SwipeButton from "rn-swipe-button";
 import { ProgressBar } from "react-native-paper";
@@ -19,22 +19,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
- import Mapbox from '@rnmapbox/maps';
- import {
-   MapView,
-   Camera,
-   UserTrackingMode,
-   LocationPuck,
-   Images,
-   Image,
- } from '@rnmapbox/maps';
-
-import LaunchNavigator from "react-native-launch-navigator";
-
- Mapbox.setAccessToken('sk.eyJ1IjoiZ3JhdW5vbm1hcGJveCIsImEiOiJjbHV5MjIxY3gwcnZ1MmlyenQzcTF5OXk3In0.pevQyWChIlrnswEtSUiHyw');
 
 import io from "socket.io-client";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const socket = io("http://localhost:3000", {
   transports: ["websocket"],
@@ -50,9 +36,7 @@ function HomeScreen() {
   const max = height * 0.5;
   const min = height * 0.3;
 
-  const [order, setOrder] = useState(true);
-  const [accepted, setAccepted] = useState(false);
-  const [rejected, setRejected] = useState(false);
+  const [order, setOrder] = useState({});
 
   const animatedContainerStyle = useAnimatedStyle(() => ({
     // transform: [{ translateY: y.value }],
@@ -136,8 +120,6 @@ function HomeScreen() {
     try {
       socket.emit("chat message", "Order Accepted");
       console.log("Sent to server");
-      setAccepted(true);
-      setOrder(false);
     } catch {
       console.log("Error sending to server");
     }
@@ -147,9 +129,6 @@ function HomeScreen() {
     try {
       socket.emit("chat message", "Order Rejected");
       console.log("Sent to server");
-      setRejected(true);
-      setAccepted(false);
-      setOrder(false);
     } catch {
       console.log("Error sending to server");
     }
@@ -161,104 +140,82 @@ function HomeScreen() {
     setIsSwiped(true);
   };
 
-  const navigate = () => {
-     LaunchNavigator.navigate("Florida, UK", {
-       start: "Miami, UK",
-       transportMode: "driving",
-     })
-       .then(() => console.log("Launched navigator"))
-       .catch((err) => console.error("Error launching navigator: " + err));
-  };
-
   return (
     <View style={{ flex: 1, position: "absolute" }}>
-      {accepted && (
-        <Text style={styles.navigate} onPress={navigate}>
-          Navigation
-        </Text>
-      )}
       <Text style={styles.title}>£5.02</Text>
       {isSwiped && (
-        <SafeAreaView style={{ zIndex: 2 }}>
-          <PanGestureHandler onGestureEvent={unclockGestureHandler}>
-            <Animated.View
-              style={[styles.animatedView, animatedContainerStyle]}
+        <PanGestureHandler onGestureEvent={unclockGestureHandler}>
+          <Animated.View style={[styles.animatedView, animatedContainerStyle]}>
+            <Text style={styles.title3}>Finding Order for you</Text>
+            <ProgressBar
+              style={styles.progressBar}
+              progress={0.5}
+              color="black"
+              indeterminate={true}
+            />
+            <View
+              style={{
+                position: "relative",
+                left: width / 3 - 60,
+                marginTop: 20,
+              }}
             >
-              <Text style={styles.title3}>Finding Order for you</Text>
-              <ProgressBar
-                style={styles.progressBar}
-                progress={0.5}
-                color="black"
-                indeterminate={true}
-              />
-              <View
-                style={{
-                  position: "relative",
-                  left: width / 3 - 60,
-                  marginTop: 20,
+              <SwipeButton
+                swipeSuccessThreshold={70}
+                height={height * 0.07}
+                width={width * 0.6}
+                title="Offline"
+                onSwipeSuccess={handleSwipeSuccess}
+                railFillBackgroundColor="#5B5B5B"
+                railFillBorderColor="#5B5B5B"
+                thumbIconBackgroundColor="white"
+                thumbIconBorderColor="white"
+                shouldResetAfterSuccess={true}
+                resetAfterSuccessAnimDelay={1000}
+                railBackgroundColor="#5B5B5B"
+                railBorderColor="#5B5B5B"
+                titleColor="white"
+                titleStyles={{
+                  position: "absolute",
+                  left: width * 0.38,
+                  fontSize: 18,
                 }}
-              >
-                <SwipeButton
-                  swipeSuccessThreshold={70}
-                  height={height * 0.07}
-                  width={width * 0.6}
-                  title="Offline"
-                  onSwipeSuccess={handleSwipeSuccess}
-                  railFillBackgroundColor="#5B5B5B"
-                  railFillBorderColor="#5B5B5B"
-                  thumbIconBackgroundColor="white"
-                  thumbIconBorderColor="white"
-                  shouldResetAfterSuccess={true}
-                  resetAfterSuccessAnimDelay={1000}
-                  railBackgroundColor="#5B5B5B"
-                  railBorderColor="#5B5B5B"
-                  titleColor="white"
-                  titleStyles={{
-                    position: "absolute",
-                    left: width * 0.38,
-                    fontSize: 18,
-                  }}
-                />
-              </View>
-            </Animated.View>
-          </PanGestureHandler>
-        </SafeAreaView>
+              />
+            </View>
+          </Animated.View>
+        </PanGestureHandler>
       )}
-
-      {order && isSwiped && (
-        <View style={styles.noti}>
-        <Text style={styles.rating}>4.49</Text>
-        <Text style={styles.delCount}>
-          <Ionicons name="bag" style={{ marginRight: 10 }}></Ionicons>{" "}
-          Delivery (3)
-        </Text>
-        <Text style={styles.price}>£5.02</Text>
-        <View style={styles.line}></View>
-        <Ionicons name="stopwatch" style={styles.clock}></Ionicons>
-        <Text style={styles.time}>30 min (3.2 mi) total</Text>
-        <View style={styles.line2}></View>
-        <View style={styles.direction}>
-          <Text style={styles.directions}>KFC Watford - High Street</Text>
-          <Text style={styles.directions}>
-            109 The Parde, High St, Watford WD17 1LU
-          </Text>
-        </View>
-        <Pressable style={styles.acceptBtn}>
-          <Text style={styles.accept} onPress={AcceptOrder}>
-            Accept
-          </Text>
-        </Pressable>
-        <Pressable style={styles.rejectBtn}>
-          <Text style={styles.reject} onPress={RejectOrder}>
-            Reject
-          </Text>
-        </Pressable>
-      </View>
-      )  
-      }
 
       {!isSwiped && (
         <>
+          <View style={styles.noti}>
+            <Text style={styles.rating}>4.49</Text>
+            <Text style={styles.delCount}>
+              <Ionicons name="bag" style={{ marginRight: 10 }}></Ionicons>{" "}
+              Delivery (3)
+            </Text>
+            <Text style={styles.price}>£5.02</Text>
+            <View style={styles.line}></View>
+            <Ionicons name="stopwatch" style={styles.clock}></Ionicons>
+            <Text style={styles.time}>30 min (3.2 mi) total</Text>
+            <View style={styles.line2}></View>
+            <View style={styles.direction}>
+              <Text style={styles.directions}>KFC Watford - High Street</Text>
+              <Text style={styles.directions}>
+                109 The Parde, High St, Watford WD17 1LU
+              </Text>
+            </View>
+            <Pressable style={styles.acceptBtn}>
+              <Text style={styles.accept} onPress={AcceptOrder}>
+                Accept
+              </Text>
+            </Pressable>
+            <Pressable style={styles.rejectBtn}>
+              <Text style={styles.reject} onPress={RejectOrder}>
+                Reject
+              </Text>
+            </Pressable>
+          </View>
           <View style={styles.swipe}>
             <SwipeButton
               swipeSuccessThreshold={70}
@@ -285,52 +242,22 @@ function HomeScreen() {
         </>
       )}
       {initialRegion && (
-        // // <MapView
-        // //   style={styles.map}
-        // //   initialRegion={initialRegion}
-        // //   showsUserLocation={true}
-        // //   showsMyLocationButton={true}
-        // //   mapType="terrain"
-        // // >
-        //   {/* You can add additional map elements like markers here */}
-        //   {/* <Marker
-        // //        coordinate={{
-        // //          latitude: initialRegion.latitude,
-        // //          longitude: initialRegion.longitude,
-        // //        }}
-        // //        title="Your Location"
-        // //      /> */}
-        // {/* </MapView> */}
-
-           <MapView
-             style={styles.map}
-             styleURL={Mapbox.StyleURL.Street}
-             zoomEnabled={true}
-             compassEnabled={false}
-             logoEnabled={false}
-             attributionEnabled={false}
-             rotateEnabled={true}
-           >
-             <Camera
-               defaultSettings={{
-                 centerCoordinate: [-77.036086, 38.910233],
-                 zoomLevel: 14,
-               }}
-               followUserLocation={true}
-               followUserMode={UserTrackingMode.Follow}
-               followZoomLevel={14}
-             />
-             <LocationPuck
-               topImage="topImage"
-               visible={true}
-               scale={['interpolate', ['linear'], ['zoom'], 10, 1.0, 20, 4.0]}
-               pulsing={{
-                 isEnabled: true,
-                 color: 'teal',
-                 radius: 50.0,
-               }}
-             />
-         </MapView>
+         <MapView
+           style={styles.map}
+           initialRegion={initialRegion}
+           showsUserLocation={true}
+           showsMyLocationButton={true}
+           mapType="terrain"
+         >
+           {/* You can add additional map elements like markers here */}
+           {/* <Marker
+        //       coordinate={{
+        //         latitude: initialRegion.latitude,
+        //         longitude: initialRegion.longitude,
+        //       }}
+        //       title="Your Location"
+        //     /> */}
+        </MapView>
       )}
     </View>
   );
@@ -438,11 +365,11 @@ const styles = StyleSheet.create({
     width: width * 0.9,
     height: 330,
     position: "absolute",
-    top: width * 0.9,
+    top: width * 0.6,
     left: width * 0.05,
     zIndex: 1,
     borderRadius: 10,
-    // display: "none",
+    display: 'none'
   },
   rating: {
     color: "black",
@@ -546,18 +473,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 15,
     color: "grey",
-  },
-  navigate: {
-    color: "white",
-    fontSize: 17,
-    textAlign: "center",
-    position: "absolute",
-    zIndex: 1,
-    top: width * 1.65,
-    left: width / 3 - -100,
-    backgroundColor: "black",
-    padding: 10,
-    width: 180,
-    borderRadius: 30,
   },
 });
