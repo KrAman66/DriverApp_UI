@@ -1,14 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import React, { useState } from 'react';
-import { Image, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, StyleSheet, Dimensions } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, StyleSheet, Dimensions, Alert } from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome";
 import tw from 'twrnc';
 import * as yup from 'yup';
+import axios from 'axios';
+import { DRIVER_API_HOST } from "../../env";
+import { DRIVER_SIGNIN } from "../../endpoint";
 
 const { width } = Dimensions.get('window');
 
-const getResponsiveSize = (sm: number, md: number, lg: number) => {
+const getResponsiveSize = (sm: any, md: any, lg: any) => {
     if (width < 350) {
         return sm;
     } else if (width >= 350 && width < 600) {
@@ -18,9 +21,9 @@ const getResponsiveSize = (sm: number, md: number, lg: number) => {
     }
 };
 
-const SignIn: React.FC = () => {
+const SignIn = () => {
     const navigation = useNavigation();
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const validationSchema = yup.object().shape({
         emailOrPhone: yup.string().required("This Field is Mandatory").test(
@@ -50,9 +53,28 @@ const SignIn: React.FC = () => {
                             <Formik
                                 initialValues={{ emailOrPhone: '', password: '' }}
                                 validationSchema={validationSchema}
-                                onSubmit={(values) => {
-                                    console.log('Form Data:', values);
-                                    navigation.navigate("DriverDetails" as never);
+                                onSubmit={async (values, { resetForm }) => {
+                                    try {
+                                        const response = await axios.post(`${DRIVER_API_HOST}${DRIVER_SIGNIN}`, {
+                                            email: values.emailOrPhone,
+                                            password: values.password
+                                        });
+
+                                        if (response.status === 200) {
+                                            // console.log('Sign-in Successful:', response.data);
+                                            const accessToken = response.data.token.access.token
+                                            
+                                            // Navigate to the DriverDetails page
+                                            navigation.navigate("DriverDetails" as never);
+                                            resetForm();
+                                        } else {
+                                            console.log('Sign-in Failed:', response.data);
+                                            Alert.alert('Sign-in Failed', 'Invalid credentials, please try again.');
+                                        }
+                                    } catch (error: any) {
+                                        console.error('Sign-in Error:', error.message);
+                                        Alert.alert(error.message);
+                                    }
                                 }}
                             >
                                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
@@ -108,7 +130,9 @@ const SignIn: React.FC = () => {
                                             </TouchableOpacity>
                                         </View>
                                         <TouchableOpacity
-                                            onPress={handleSubmit}
+                                            onPress={() => {
+                                                handleSubmit();
+                                              }}
                                             style={tw`bg-black w-full h-12 p-3 rounded-xl`}
                                         >
                                             <Text style={[tw`text-white text-center`, { fontSize: getResponsiveSize(14, 16, 18) }]}>
