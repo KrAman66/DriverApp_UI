@@ -30,6 +30,14 @@
         "projectId": "75c1423e-67df-4354-95ba-045bca8392bb"
       }
     },
+    "plugins": [
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoiZ3JhdW5vbm1hcGJveCIsImEiOiJjbHV5MjIxY3gwcnZ1MmlyenQzcTF5OXk3In0.pevQyWChIlrnswEtSUiHyw"
+        }
+      ]
+    ],
     "owner": "mayankk234"
   }
 }
