@@ -12,13 +12,15 @@ const EmailVerifyConfirmation: React.FC = () => {
         <Image source={require('../../assets/check.png')} style={tw`w-20 h-20 mb-10`} />
         <Text style={tw`text-3xl text-center`}>Your email Verification was successful</Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Contact" as never)}
+          // onPress={() => navigation.navigate("Contact" as never)}
+          onPress={() => navigation.navigate("SignIn" as never)}
           style={[
             tw`bg-black w-11/12 h-16 p-4 rounded-3xl items-center mt-20`,
             { marginLeft: "auto", marginRight: "auto" },
           ]}
         >
-          <Text style={tw`text-white text-lg`}>Now verify your phone number</Text>
+          {/* <Text style={tw`text-white text-lg`}>Now verify your phone number</Text> */}
+          <Text style={tw`text-white text-lg`}>Sign In</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

@@ -1,5 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
+import { RouteProp } from '@react-navigation/native';
 import { Formik } from "formik";
 import React, { useState } from "react";
 import {
@@ -22,6 +23,9 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import tw from "twrnc";
 import * as yup from "yup";
+import axios from 'axios';
+import { DRIVER_API_HOST } from "../../env";
+import { DRIVER_SIGNUP } from "../../endpoint";
 
 const { width, height } = Dimensions.get('window');
 
@@ -116,16 +120,40 @@ const Register: React.FC = () => {
                   date: null,
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values, { resetForm }) => {
+                onSubmit={async (values, { resetForm }) => {
                   const { confirmPassword, ...formData } = values; // Exclude confirmPassword
                   formData.gender = gender; // Include gender
-                  formData.date = date; // Include date
+                  formData.date = date as any; // Include date
                   formData.contact = countryCode + formData.contact;
-
+                
                   console.log('Form Data:', formData); // Log the modified form data
-                  // Navigate to SignIn screen
-                  navigation.navigate("SignIn" as never);
-                  resetForm(); // Reset the form after navigation
+                
+                  const submitData = {
+                    email: formData.email,
+                    password: formData.password,
+                    user_name: formData.firstName,
+                    last_name: formData.lastName,
+                    gender: formData.gender,
+                    contact_no: formData.contact,
+                    dateOfBirth: formData.date
+                  }
+                
+                  try {
+                    const response = await axios.post(`${DRIVER_API_HOST}${DRIVER_SIGNUP}`, submitData);
+                    
+                    if (response.status === 200 || response.status === 201) {
+                      console.log('Signup Successful:', response.data);
+
+                      navigation.navigate("Email" as never, { email: formData.email } as never);
+                      resetForm();
+                    } else {
+                      console.log('Signup Failed:', response.data);
+                      alert('Signup failed. Please try again.');
+                    }
+                  } catch (error: any) {
+                    console.error('Signup Error:', error.message);
+                    alert('An error occurred during signup. Please try again later.');
+                  }
                 }}
               >
                 {({
