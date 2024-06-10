@@ -145,8 +145,6 @@ function HomeScreen() {
   // EXAMPLE: Testing API service
   const [details, setDetails] = useState();
   useEffect(() => {
-    console.log("dispatchInstance.defaults.headers.common", dispatchInstance?.defaults?.headers.common);
-
     const fetchData = async () => {
       const result = await requests.dispatchGet(TEST_API_GET);
       console.log("result", result);
