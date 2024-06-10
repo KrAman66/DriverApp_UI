@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { DRIVER_API_HOST } from "../../env";
 import { DRIVER_SIGNIN } from "../../endpoint";
+import { useAuth } from '../context/AuthContext';
 
 const { width } = Dimensions.get('window');
 
@@ -24,6 +25,7 @@ const getResponsiveSize = (sm: any, md: any, lg: any) => {
 const SignIn = () => {
     const navigation = useNavigation();
     const [showPassword, setShowPassword] = useState(false);
+    const { login } = useAuth();
 
     const validationSchema = yup.object().shape({
         emailOrPhone: yup.string().required("This Field is Mandatory").test(
@@ -61,9 +63,8 @@ const SignIn = () => {
                                         });
 
                                         if (response.status === 200) {
-                                            // console.log('Sign-in Successful:', response.data);
                                             const accessToken = response.data.token.access.token
-                                            
+                                            await login(accessToken);
                                             // Navigate to the DriverDetails page
                                             navigation.navigate("DriverDetails" as never);
                                             resetForm();
@@ -132,7 +133,7 @@ const SignIn = () => {
                                         <TouchableOpacity
                                             onPress={() => {
                                                 handleSubmit();
-                                              }}
+                                            }}
                                             style={tw`bg-black w-full h-12 p-3 rounded-xl`}
                                         >
                                             <Text style={[tw`text-white text-center`, { fontSize: getResponsiveSize(14, 16, 18) }]}>

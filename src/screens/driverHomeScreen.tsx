@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -21,6 +21,8 @@ import Animated, {
 } from "react-native-reanimated";
 
 import io from "socket.io-client";
+import requests, { dispatchInstance } from "../config/api";
+import { TEST_API_GET } from "../../endpoint";
 
 const socket = io("http://localhost:3000", {
   transports: ["websocket"],
@@ -140,6 +142,22 @@ function HomeScreen() {
     setIsSwiped(true);
   };
 
+  // EXAMPLE: Testing API service
+  const [details, setDetails] = useState();
+  useEffect(() => {
+    console.log("dispatchInstance.defaults.headers.common", dispatchInstance?.defaults?.headers.common);
+
+    const fetchData = async () => {
+      const result = await requests.dispatchGet(TEST_API_GET);
+      console.log("result", result);
+      setDetails(result?.data);
+    };
+
+    fetchData();
+  }, []);
+  console.log("details", details);
+  // EXAMPLE: Testing API service
+
   return (
     <View style={{ flex: 1, position: "absolute" }}>
       <Text style={styles.title}>£5.02</Text>
@@ -242,15 +260,15 @@ function HomeScreen() {
         </>
       )}
       {initialRegion && (
-         <MapView
-           style={styles.map}
-           initialRegion={initialRegion}
-           showsUserLocation={true}
-           showsMyLocationButton={true}
-           mapType="terrain"
-         >
-           {/* You can add additional map elements like markers here */}
-           {/* <Marker
+        <MapView
+          style={styles.map}
+          initialRegion={initialRegion}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          mapType="terrain"
+        >
+          {/* You can add additional map elements like markers here */}
+          {/* <Marker
         //       coordinate={{
         //         latitude: initialRegion.latitude,
         //         longitude: initialRegion.longitude,

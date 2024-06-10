@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -21,22 +21,24 @@ import RightToWork from './src/screens/RightToWork';
 import SignIn from './src/screens/SignIn';
 import YourVehicleInfo from './src/screens/YourVehicleInfo';
 import Home from './src/screens/home';
+import { AuthProvider, useAuth } from './src/context/AuthContext';
+import { dispatchInstance, initializeInstances } from './src/config/api';
 
 const Stack = createStackNavigator();
 
-export default function App() {
+const AppNavigator = () => {
+  const { authToken, loading } = useAuth();
+  if (loading) {
+    return null; // Or a loading spinner
+  }
   return (
-    <NavigationContainer>
-      <SafeAreaProvider>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-          <Stack.Screen name="Email" component={EmailVerify} options={{ headerShown: false }} />
-          <Stack.Screen name="EmailSuccess" component={EmailVerifyConfirmation} options={{ headerShown: false }} />
+    <Stack.Navigator>
+      {authToken ? (
+        <>
+          <Stack.Screen name="HomeView" component={Home} options={{ headerShown: false }} />
+          <Stack.Screen name="DriverDetails" component={DriverDetails} options={{ headerShown: false }} />
           <Stack.Screen name="Contact" component={ContactVerify} options={{ headerShown: false }} />
           <Stack.Screen name="ContactSuccess" component={OTPSuccess} options={{ headerShown: false }} />
-          <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
-          <Stack.Screen name="DriverDetails" component={DriverDetails} options={{ headerShown: false }} />
           <Stack.Screen name='RiderAddress' component={RiderAddress} options={{ headerShown: false }} />
           <Stack.Screen name="AddressProof" component={AddressProof} options={{ headerShown: false }} />
           <Stack.Screen name="BankingDetails" component={BankingDetails} options={{ headerShown: false }} />
@@ -45,10 +47,44 @@ export default function App() {
           <Stack.Screen name="RiderAgreement" component={RiderAgreement} options={{ headerShown: false }} />
           <Stack.Screen name="RightToWork" component={RightToWork} options={{ headerShown: false }} />
           <Stack.Screen name="YourVehicleInfo" component={YourVehicleInfo} options={{ headerShown: false }} />
-          <Stack.Screen name="HomeView" component={Home} options={{ headerShown: false }} />
-        </Stack.Navigator>
-      </SafeAreaProvider>
-    </NavigationContainer>
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+          <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
+          <Stack.Screen name="Email" component={EmailVerify} options={{ headerShown: false }} />
+          <Stack.Screen name="EmailSuccess" component={EmailVerifyConfirmation} options={{ headerShown: false }} />
+        </>
+      )}
+    </Stack.Navigator>
+  )
+}
+
+export default function App() {
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    const init = async () => {
+      await initializeInstances();
+      setInitialized(true);
+    };
+
+    init();
+  }, []);
+
+  if (!initialized) {
+    return null; // Or a loading spinner
+  }
+
+  return (
+    <AuthProvider>
+      <NavigationContainer>
+        <SafeAreaProvider>
+          <AppNavigator />
+        </SafeAreaProvider>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
 

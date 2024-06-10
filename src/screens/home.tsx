@@ -4,6 +4,9 @@ import React from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import Wallet from "../components/WalletScreen";
 import HomeScreen from "./driverHomeScreen";
+import { Button } from "react-native-paper";
+import tw from 'twrnc';
+import { useAuth } from "../context/AuthContext";
 
 const { width, height } = Dimensions.get("window");
 // function HomeScreen() {
@@ -32,9 +35,18 @@ function SupportScreen() {
 }
 
 function SettingsScreen() {
+  const { logout } = useAuth();
+
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Settings!</Text>
+      <Button 
+         mode="contained"
+         onPress={()=>logout()}
+         style={tw`mt-6`}
+         contentStyle={tw`py-2`}
+         buttonColor="#000000"
+         >LogOut</Button>
     </View>
   );
 }
